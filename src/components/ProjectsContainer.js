@@ -13,7 +13,9 @@ function ProjectsContainer() {
   useEffect(() => {
     let url;
     if (selectedPhase && searchQuery) {
-      url = `http://localhost:4000/projects?phase=${selectedPhase}&q=${encodeURI(searchQuery)}`;
+      url = `http://localhost:4000/projects?phase=${selectedPhase}&q=${encodeURI(
+        searchQuery
+      )}`;
     } else if (searchQuery) {
       url = `http://localhost:4000/projects?q=${encodeURI(searchQuery)}`;
     } else if (selectedPhase) {
@@ -31,26 +33,26 @@ function ProjectsContainer() {
   };
 
   const onUpdateProject = (updatedProject) => {
-    setProjects(projects => projects.map(originalProject => {
-      if (originalProject.id === updatedProject.id) {
-        return updatedProject;
-      } else {
-        return originalProject;
-      }
-    }))
+    setProjects((projects) =>
+      projects.map((originalProject) => {
+        if (originalProject.id === updatedProject.id) {
+          return updatedProject;
+        } else {
+          return originalProject;
+        }
+      })
+    );
   };
 
   const onProjectDelete = (projectId) => {
-    setProjects(projects => projects.filter(p => p.id !== projectId))
+    setProjects((projects) => projects.filter((p) => p.id !== projectId));
   };
 
   return (
     <>
       <Switch>
         <Route path="/projects/:id/edit">
-          <ProjectEditForm
-            onUpdateProject={onUpdateProject}
-          />
+          <ProjectEditForm onUpdateProject={onUpdateProject} />
         </Route>
         <Route path="/projects/new">
           <ProjectForm onAddProject={onAddProject} />
@@ -58,13 +60,13 @@ function ProjectsContainer() {
         <Route exact path="/projects/:id">
           <ProjectDetail />
         </Route>
-         <Route path="/projects/phase/:phase">
+        <Route path="/projects/phase/:phase">
           <ProjectList
             projects={projects}
             onProjectDelete={onProjectDelete}
             setSelectedPhase={setSelectedPhase}
             setSearchQuery={setSearchQuery}
-            />
+          />
         </Route>
         <Route path="/projects">
           <ProjectList
@@ -72,11 +74,11 @@ function ProjectsContainer() {
             onProjectDelete={onProjectDelete}
             setSelectedPhase={setSelectedPhase}
             setSearchQuery={setSearchQuery}
-            />
+          />
         </Route>
       </Switch>
     </>
-  )
+  );
 }
 
-export default ProjectsContainer
+export default ProjectsContainer;

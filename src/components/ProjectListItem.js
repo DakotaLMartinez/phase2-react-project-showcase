@@ -23,7 +23,7 @@ const Card = styled.li`
     border-bottom: none;
     background-color: transparent;
   }
-`
+`;
 
 const Figure = styled.figure`
   max-height: 200px;
@@ -38,30 +38,32 @@ const Figure = styled.figure`
 
   .claps {
     color: transparent;
-    text-shadow: 0 0 0 ${props => props.theme.primary};
+    text-shadow: 0 0 0 ${(props) => props.theme.primary};
     position: absolute;
     top: 10px;
     right: 10px;
   }
 
-  .claps:focus, .claps:hover {
+  .claps:focus,
+  .claps:hover {
     color: transparent;
-    text-shadow: 0 0 0 ${props => props.theme.backgroundColor};
+    text-shadow: 0 0 0 ${(props) => props.theme.backgroundColor};
   }
-`
+`;
 
 const Details = styled.section`
   /* margin: 0.5rem; */
-  h4, p {
+  h4,
+  p {
     margin: 0.5rem 0;
   }
-`
+`;
 
 const Footer = styled.footer`
   margin: 0.5rem;
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Badge = styled.span`
   display: inline-block;
@@ -70,45 +72,48 @@ const Badge = styled.span`
   border: 2px solid var(--dark-turquoise);
   margin: 0.25rem;
 
-  ${props => props.color === "blue" && css`
-    border: 2px solid var(--blue-dark);
-    background-color: var(--blue);
-    color: var(--white);
-  `}
-  ${props => props.color === "red" && css`
-    border: 2px solid var(--orange);
-    background-color: var(--fuschia);
-    color: var(--white);
-  `}
-`
+  ${(props) =>
+    props.color === "blue" &&
+    css`
+      border: 2px solid var(--blue-dark);
+      background-color: var(--blue);
+      color: var(--white);
+    `}
+  ${(props) =>
+    props.color === "red" &&
+    css`
+      border: 2px solid var(--orange);
+      background-color: var(--fuschia);
+      color: var(--white);
+    `}
+`;
 
-const ProjectListItem = ({
-  project,
-  onProjectDelete,
-}) => {
+const ProjectListItem = ({ project, onProjectDelete }) => {
   const { id, image, about, name, link, phase } = project;
 
   const [clapCount, setClapCount] = useState(0);
 
-  const handleClap = (clapCount) => setClapCount(clapCount + 1);
+  const handleClap = (e) => {
+    setClapCount(clapCount + 1);
+  };
 
   const handleDeleteClick = () => {
-    onProjectDelete(id)
+    onProjectDelete(id);
     fetch(`http://localhost:4000/projects/${id}`, {
-      method: "DELETE"
-    })
+      method: "DELETE",
+    });
   };
 
   return (
     <Card>
-      <Link to={`/projects/${id}`}>
-        <Figure>
+      <Figure>
+        <Link to={`/projects/${id}`}>
           <img src={image} alt={name} />
-          <Button onClick={handleClap} className="claps">
-            👏{clapCount}
-          </Button>
-        </Figure>
-      </Link>
+        </Link>
+        <Button onClick={handleClap} className="claps">
+          👏{clapCount}
+        </Button>
+      </Figure>
 
       <Details>
         <h4>{name}</h4>
@@ -121,7 +126,9 @@ const ProjectListItem = ({
       </Details>
 
       <Footer>
-        <Badge color={(phase === "1" || phase === "2") ? 'blue' : 'red'}>Phase {phase}</Badge>
+        <Badge color={phase === "1" || phase === "2" ? "blue" : "red"}>
+          Phase {phase}
+        </Badge>
         <div className="manage">
           <Button mr as={Link} to={`/projects/${id}/edit`}>
             <FaPencilAlt />
